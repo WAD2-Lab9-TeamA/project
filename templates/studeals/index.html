@@ -1,0 +1,21 @@
+{% extends 'studeals/base.html' %}
+{% load staticfiles %}
+	{% block body_block %}
+	<div class="row">
+		<div class="col-sm">
+		<h3>Quick Start</h3>
+		Find the best deals for students!
+		<div class="search py-2" >
+		<input type="text" placeholder="Search...">
+		</div>
+		</div>
+		<div class="col-sm">
+			<div class="container">
+				<label for="username"><b>Username</b></label>
+				<input type="text" placeholder="Enter Username" name="username" required>
+				<label for="password" ><b>Password</b></label>
+				<input for="password" placeholder="Enter Password" name="password" required>
+				<button type="submit">Login</button>
+		</div>
+	</div>
+	{% endblock %}
