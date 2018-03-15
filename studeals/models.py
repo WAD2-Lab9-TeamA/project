@@ -17,9 +17,18 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class UserProfile(models.Model):
+	user=models.OneToOneField(User)
+	
+	picture=models.ImageField(upload_to='profile_images', blank=True)
+	def __str__(self):
+		return self.user.username
+		
+
 class Offer(models.Model):
+    category = models.ForeignKey(Category)
     title = models.CharField(max_length=20)
-    price = models.IntegerField(blank=True)
+    price = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
     place_address = models.CharField(max_length=200)
     place_name = models.CharField(max_length=30)
