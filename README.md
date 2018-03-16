@@ -1,5 +1,5 @@
 # Studeals
----
+
 - **Institution**: University of Glasgow
 - **Academic Year**: 2017/18
 - **Course**: Web Application Development 2
