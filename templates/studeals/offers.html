@@ -2,17 +2,6 @@
 {% load staticfiles %}
 	{% block col_1 %}
 		<div class="col-sm-8">
-			<h3>Quick Start</h3>
-			Find the best deals for students!
-			<div class="search" >
-				<input type="text" placeholder="Search...">
-			</div>
-		</div>
-	{% endblock %}
-
-
-	{% block col_2 %}
-		<div class="col-sm-8">
 			{% if offers %}
 			<table class="table">
 				<thead>
@@ -35,5 +24,11 @@
 			{% else %}
 				<h4>There are currently no offers!</h4>
 			{% endif %}
+		</div>
+	{% endblock %}
+
+
+	{% block col_2 %}
+		<div class="col-sm-8">
 		</div>
 	{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'studeals/base.html' %}
+{% load staticfiles %}
+	{% block body_block %}
+	<div class="row">
+	
+			<div class="container mx-auto">
+			<form id="login_form" method="post" action="{%url 'login' %}">
+				{% csrf_token %}
+	
+				<label for="username"><b>Username</b></label>
+				<input class="input-sm form-control" type="text" placeholder="Enter Username" name="username" required></br>
+				<label for="password" ><b>Password</b></label>
+				<input class="input-sm form-control" for="password" placeholder="Enter Password" name="password" required>
+				<button type="submit" value="submit" >Login</button>
+			</form>
+		</div>
+	</div>
+	{% endblock %}

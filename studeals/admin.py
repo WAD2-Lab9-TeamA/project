@@ -1,5 +1,6 @@
 from django.contrib import admin
 from studeals.models import Category, Offer, Comment, Vote
+from studeals.models import UserProfile
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -9,5 +10,6 @@ class CategoryAdmin(admin.ModelAdmin):
 class OfferAdmin(admin.ModelAdmin):
     pass
 
+admin.site.register(UserProfile)
 admin.site.register(Comment)
 admin.site.register(Vote)
