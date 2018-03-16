@@ -1,0 +1,40 @@
+{
+  "name": "studeals",
+  "version": "1.0.0",
+  "description": "Web applications to share local student deals",
+  "dependencies": {},
+  "devDependencies": {
+    "@fortawesome/fontawesome": "^1.1.4",
+    "@fortawesome/fontawesome-free-solid": "^5.0.8",
+    "autoprefixer": "^8.1.0",
+    "bootstrap": "^4.0.0",
+    "css-loader": "^0.28.10",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "jquery": "^3.3.1",
+    "node-sass": "^4.7.2",
+    "popper.js": "^1.14.1",
+    "postcss-loader": "^2.1.1",
+    "precss": "^3.1.2",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
+    "uglifyjs-webpack-plugin": "^1.2.3",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "webpack-merge": "^4.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=development webpack-cli",
+    "build": "NODE_ENV=production webpack-cli"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/WAD2-Lab9-TeamA/project.git"
+  },
+  "author": "Ivan Delev, Ibrahim Javed, Aleksej Panfilov, Luca Vizzarro",
+  "bugs": {
+    "url": "https://github.com/WAD2-Lab9-TeamA/project/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/WAD2-Lab9-TeamA/project#readme"
+}

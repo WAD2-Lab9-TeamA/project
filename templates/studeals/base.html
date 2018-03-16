@@ -5,38 +5,36 @@
 		<meta charset="utf-8">
 		<meta name="viewpoint" content="width=device-width, initial-scale=1">
 		<title>Find the best deals!</title>
-		<link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %}" type="text/css">
+		<link rel="stylesheet" href="{% static "css/bundle.css" %}" type="text/css">
+		<script type="text/javascript" src="{% static "js/bundle.js" %}" defer></script>
 	</head>
 	<body>
     <div class="container-fluid my-5">
       <div class="row mx-4">
         <div class="col-md">
-          <img class="img" src="{% static "images/logo.png" %}"" width="20%">
+          <img class="img" src="{% static "images/logo.png" %}" width="20%">
         </div>
       </div>
     </div>
-	<div class="container mx-auto">
-		<div class="row">
-			<ul class="nav nav-pills">
-				<li class="nav-item"><a href="#" class="active nav-link"> <i class="fa fa-home fa-home"></i>&nbsp;Home</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Offers</a></li>
-				<li class="nav-item"><a href="#" class="nav-link">Categories</a></li>
-				<li class="nav-item"><a href="#" class="nav-link">My account</a></li>
-				<li class="nav-item"><a href="#" class="nav-link">Contact Us<br></a></li>
-			</ul>
+		<div class="container mx-auto">
+			<div class="row">
+				<ul class="nav nav-pills">
+					<li class="nav-item"><a href="#" class="active nav-link"> <i class="fa fa-home fa-home"></i>&nbsp;Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Offers</a></li>
+					<li class="nav-item"><a href="#" class="nav-link">Categories</a></li>
+					<li class="nav-item"><a href="#" class="nav-link">My account</a></li>
+					<li class="nav-item"><a href="#" class="nav-link">Contact Us<br></a></li>
+				</ul>
+			</div>
 		</div>
-	</div>
-	<div class="container rounded-top border" style="background-color:#F7F7F7">
-		{% block body_block %}
-			This is body_block's default content
-		{% endblock %}
-	</div>
-	
+		<div class="container rounded-top border" style="background-color:#F7F7F7">
+			{% block body_block %}
+				This is body_block's default content
+			{% endblock %}
+		</div>
+
 		<div class="footer fixed-bottom" style='background-color: grey'>
 			This is the footer.
 		</div>
-	
- 
 	</body>
 </html>
-	
