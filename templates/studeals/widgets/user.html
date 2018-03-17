@@ -1,0 +1,20 @@
+{% if user.is_authenticated %}
+  <h3 class="mb-4">My account</h3>
+  <div class="row">
+    <div class="col-sm-4">
+      <img {% if user.profile.picture %}src="{{ user.profile.picture.url }}" class="{% else %}class="profile_picture {% endif %}img-thumbnail img-fluid" alt="{{ user.username }}'s profile picture">
+    </div>
+    <div class="col-sm-8">
+      Hello, <b>{{ user.username }}</b>!<br>
+      <a href="{% url 'logout' %}"> Logout</a><br>
+    </div>
+  </div>
+{% else %}
+  <h3 class="mb-4">Hello stranger!</h3>
+  <p>Partecipate in the Studeals community by sharing all the local deals you find! If you are not registered yet, don't hesitate to join us!</p>
+
+  <div class="btn-group w-100">
+    <a href="{% url 'login' %}" type="button" class="w-50 btn btn-lg btn-primary">Login</a>
+    <a href="{% url 'register' %}" type="button" class="w-50 btn btn-lg btn-outline-primary">Sign Up</a>
+  </div>
+{% endif %}

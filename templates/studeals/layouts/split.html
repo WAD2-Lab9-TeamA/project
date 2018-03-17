@@ -1,0 +1,15 @@
+{% extends 'studeals/layouts/base.html' %}
+{% load staticfiles %}
+
+{% block main %}
+<div class="container mt-4">
+	<div class="row">
+	  <div class="col-sm-8">
+      {% block content %}{% endblock %}
+    </div>
+    <div class="col-sm-4">
+      {% block sidebar %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}

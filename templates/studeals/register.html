@@ -1,18 +1,26 @@
-{% extends 'studeals/base.html' %}
+{% extends 'studeals/layouts/base.html' %}
 {% load staticfiles %}
-	{% block body_block %}
-	<div class="row">
+
+{% block main %}
+<div class="mx-3">
+	<div class="card form-card">
+	  <div class="card-header">
+	    Register
+	  </div>
+	  <div class="card-body">
 		{% if registered %}
-			<h4>Thank you for registering</h4>
-			<a href="{% url 'index' %}">Return to the homepage.</a><br />
+			<h3 class="mb-4">Thank you for registering</h4>
+			<a href="{% url 'index' %}">Return to the homepage.</a><br>
 		{% else %}
-			<form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
+			<form method="post" action="{% url 'register' %}" enctype="multipart/form-data">
 				{% csrf_token %}
 				{{ user_form.as_p }}
 				{{ profile_form.as_p }}
-			
-				<input type="submit" name="submit" value="Register" />
+
+				<button type="submit" class="btn btn-lg btn-primary">Sign up now!</button>
 			</form>
 		{% endif %}
+		</div>
 	</div>
-	{% endblock %}
+</div>
+{% endblock %}

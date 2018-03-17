@@ -18,12 +18,12 @@ class Category(models.Model):
         return self.name
 
 class UserProfile(models.Model):
-	user=models.OneToOneField(User)
-	
-	picture=models.ImageField(upload_to='profile_images', blank=True)
+	user = models.OneToOneField(User)
+	picture = models.ImageField(upload_to='profile_images', blank=True)
+    
 	def __str__(self):
 		return self.user.username
-		
+
 
 class Offer(models.Model):
     category = models.ForeignKey(Category)
