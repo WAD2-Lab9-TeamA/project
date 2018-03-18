@@ -7,7 +7,7 @@
 		<meta name="description" content="Find the best deals! Studeals is a community where students can get and share local student deals!">
 		<title>{% block title %}Home{% endblock %} - Studeals</title>
 		<link rel="stylesheet" href="{% static "css/bundle.css" %}" type="text/css">
-		<script type="text/javascript" src="{% static "js/bundle.js" %}" defer></script>
+		<script src="{% static "js/bundle.js" %}" defer></script>
 		{% block scripts %}{% endblock %}
 	</head>
 	<body class="pt-4 loading">
@@ -28,7 +28,7 @@
     <div class="container mb-4">
       <div class="row">
 				<div class="col-8 col-md-3">
-	        <a href="{% url 'index' %}"><img id="logo" class="img-fluid logo"></a>
+	        <a href="{% url 'index' %}"><img id="logo" src="#" alt="Studeals" class="img-fluid logo"></a>
 				</div>
 				<div class="col-4 col-md-9 navbar-light navbar-expand-md">
 					<button class="navbar-toggler float-right" id="offpage-nav-toggle" type="button">
@@ -39,7 +39,7 @@
 						<li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="{% url 'offers' %}">Offers</a></li>
 						<li class="nav-item"><a href="#" class="nav-link">Categories</a></li>
-						<li class="nav-item"><a href="#" class="nav-link">Contact Us</br></a></li>
+						<li class="nav-item"><a href="#" class="nav-link">Contact Us</a></li>
 						{% if user.is_authenticated %}
 						<li class="nav-item"><a href="#" class="active nav-link">My account</a></li>
 						{% else %}
