@@ -1,0 +1,24 @@
+{% extends 'studeals/layouts/split.html' %}
+
+{% block content %}
+	<h2 class="mb-4">{{offer.title }}</h2>
+		{% if offer %}
+			Price: {{offer.price}}</br>
+			Description: {{offer.description}}</br>
+			Address: {{offer.place_address}}</br>
+			Intsitution: {{offer.place_name}}</br>
+			Picture: <img class="img-thubnail">{{offer.picture}}</img></br>
+			Expires: {{offer.expiration_date}}</br>
+			Rating: {{offer.rating}} out of 5</br>
+			Added by: {{offer.user}}</br>
+		{% if user.is_authenticated %}
+			<a href='/studeals/category/{{category.slug}}/add_page/'>Add Page</a>
+		{% endif %}
+	{% else %}
+		The specified category does not exist!
+	{% endif %}
+{% endblock %}
+
+
+{% block sidebar %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'studeals/layouts/split.html' %}
+{% load studeals_tags %}
+{% block content %}
+	<h2 class="mb-4">Categories</h2>
+		{% if categories %}
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Title</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for category in categories %}
+					<tr>
+					<td><a href={% url 'show_category' category.slug %}>{{category.name}}</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+			<p class="text-muted">There are currently no categories!</p>
+		{% endif %}
+	</div>
+{% endblock %}
+
+
+{% block sidebar %}
+{% endblock %}

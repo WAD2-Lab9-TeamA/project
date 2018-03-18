@@ -1,0 +1,25 @@
+{% extends 'studeals/layouts/split.html' %}
+
+{% block content %}
+	<h2 class="mb-4">{{category.name }}</h2>
+		{% if category %}
+		{% if offers %}
+			<ul>
+			{% for offer in offers %}
+				<li><a href={% url 'show_offer' offer.slug %}>{{ offer.title }}</a></li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<strong>No offers currently in category.</strong>
+		{% endif %}
+		{% if user.is_authenticated %}
+			
+		{% endif %}
+	{% else %}
+		The specified category does not exist!
+	{% endif %}
+{% endblock %}
+
+
+{% block sidebar %}
+{% endblock %}

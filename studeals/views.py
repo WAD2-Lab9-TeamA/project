@@ -20,6 +20,42 @@ def index(request):
 	context_dict={'offers':offers_list, 'categories':category_list}
 	return render(request,'studeals/index.html',context=context_dict)
 
+def categories(request):
+	category_list=Category.objects.all()
+	offers_list=Offer.objects.order_by('date_added')[:1]
+	context_dict={'categories':category_list,'offers': offers_list}
+	
+	return render(request,'studeals/categories.html',context=context_dict)
+
+def show_category(request, category_name_slug):
+     
+    context_dict={}
+
+    try:
+        category=Category.objects.get(slug=category_name_slug)
+        offers=Offer.objects.filter(category=category)
+
+        context_dict['offers']=offers
+        context_dict['category']=category
+
+    except Category.DoesNotExist:
+        context_dict['category']=None
+        context_dict['offers']=None
+	
+    return render(request, 'studeals/category.html', context_dict)
+def show_offer(request, offer_title_slug):
+     
+    context_dict={}
+
+    try:
+        offer=Offer.objects.get(slug=offer_title_slug)
+
+        context_dict['offer']=offer
+
+    except Offer.DoesNotExist:
+        context_dict['offer']=None
+	
+    return render(request, 'studeals/offer.html', context_dict)
 @guest
 def register(request):
 	if request.method == 'POST':
