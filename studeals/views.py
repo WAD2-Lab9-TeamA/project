@@ -8,9 +8,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
+from app import settings
 from studeals.models import Category, Offer, UserProfile
 from studeals.forms import UserForm, UserProfileForm, PasswordResetForm, PasswordResetRequestForm
-from studeals.auth import activate, authenticate, tokens, send_password_reset_email
+from studeals.auth import activate, authenticate, tokens, send_password_reset_email, recaptcha_check
 from studeals.auth.decorators import guest
 
 def index(request):
@@ -77,7 +78,7 @@ def register(request):
 	else:
 		form = UserForm()
 
-	return render(request, 'studeals/register.html', {'form': form})
+	return render(request, 'studeals/register.html', {'form': form, 'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY})
 
 @guest
 def activate_user(request, uidb64, token):
@@ -114,7 +115,7 @@ def request_password_reset(request):
 	else:
 		form = PasswordResetRequestForm()
 
-	return render(request, 'studeals/password_reset_request.html', {'form': form})
+	return render(request, 'studeals/password_reset_request.html', {'form': form, 'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY})
 
 @guest
 def password_reset(request, uidb64, token):
@@ -139,7 +140,7 @@ def password_reset(request, uidb64, token):
 			else:
 				form = PasswordResetForm()
 
-			return render(request, 'studeals/password_reset.html', {'form': form, 'uid': uidb64, 'token': token})
+			return render(request, 'studeals/password_reset.html', {'form': form, 'uid': uidb64, 'token': token, 'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY})
 
 	raise Http404("Invalid password reset request")
 
@@ -156,20 +157,25 @@ def user_login(request):
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
-		user = authenticate(username=username,password=password)
-		if user:
-			if user.is_active:
-				login(request, user)
-				return HttpResponseRedirect(reverse('index'))
-			elif user.last_login is None:
-				messages.warning(request, 'Your account needs to be activated. You should have received an email at your email address.')
-			else:
-				errors.append("Your account is disabled.")
-		else:
-			print("Invalid login details: {0},{1}".format(username, password))
-			errors.append("Invalid login details supplied.")
+		recaptcha_response = request.POST.get('g-recaptcha-response')
 
-	return render(request, 'studeals/login.html', {'errors': errors})
+		if recaptcha_response and recaptcha_check(recaptcha_response):
+			user = authenticate(username=username,password=password)
+			if user:
+				if user.is_active:
+					login(request, user)
+					return HttpResponseRedirect(reverse('index'))
+				elif user.last_login is None:
+					messages.warning(request, 'Your account needs to be activated. You should have received an email at your email address.')
+				else:
+					errors.append("Your account is disabled.")
+			else:
+				print("Invalid login details: {0},{1}".format(username, password))
+				errors.append("Invalid login details supplied.")
+		else:
+			errors.append("The CAPTCHA validation failed, please try again.")
+
+	return render(request, 'studeals/login.html', {'errors': errors, 'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY})
 
 @login_required
 def user_logout(request):

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from studeals.models import UserProfile
+from studeals.auth import recaptcha_check
 
 class UserForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput())
@@ -16,6 +17,7 @@ class UserForm(forms.ModelForm):
 		password = cleaned_data.get('password')
 		confirm_password = cleaned_data.get('confirm_password')
 		email = cleaned_data.get('email')
+		recaptcha_response = self.data['g-recaptcha-response']
 
 		if password != confirm_password:
 			self.add_error('confirm_password', "The entered passwords do not match.")
@@ -28,6 +30,9 @@ class UserForm(forms.ModelForm):
 			self.add_error('email', 'There is already an account registered with this email address.')
 		except User.DoesNotExist:
 			pass
+
+		if not (recaptcha_response and recaptcha_check(recaptcha_response)):
+			self.add_error(None, 'The CAPTCHA validation failed, please try again.')
 
 		return cleaned_data
 
@@ -50,6 +55,7 @@ class PasswordResetForm(forms.ModelForm):
 		password = cleaned_data.get('password')
 		confirm_password = cleaned_data.get('confirm_password')
 		email = cleaned_data.get('email')
+		recaptcha_response = self.data['g-recaptcha-response']
 
 		if password != confirm_password:
 			self.add_error('confirm_password', "The entered passwords do not match.")
@@ -57,7 +63,19 @@ class PasswordResetForm(forms.ModelForm):
 		if self.instance.email != email:
 			self.add_error('email', 'The entered email address does not correspond with the one in the system.')
 
+		if not (recaptcha_response and recaptcha_check(recaptcha_response)):
+			self.add_error(None, 'The CAPTCHA validation failed, please try again.')
+
 		return cleaned_data
 
 class PasswordResetRequestForm(forms.Form):
 	email = forms.CharField(widget=forms.EmailInput(), help_text="Enter your account's email address.")
+
+	def clean(self):
+		cleaned_data = super(PasswordResetRequestFOrm, self).clean()
+		recaptcha_response = self.data['g-recaptcha-response']
+
+		if not (recaptcha_response and recaptcha_check(recaptcha_response)):
+			self.add_error(None, 'The CAPTCHA validation failed, please try again.')
+
+		return cleaned_data

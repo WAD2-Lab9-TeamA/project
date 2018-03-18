@@ -5,6 +5,10 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.utils.html import strip_tags
 from django.contrib.auth.tokens import default_token_generator
+from app import settings
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+import json
 
 def authenticate(username=None, password=None):
     try:
@@ -33,3 +37,20 @@ def send_password_reset_email(user):
     #email = EmailMultiAlternatives(mail_subject, strip_tags(content), to=[user.email])
     #email.attach_alternative(content, "text/html")
     email.send()
+
+def recaptcha_check(recaptcha_response):
+    data = urlencode({
+        'secret': settings.RECAPTCHA_SECRET_KEY,
+        'response': recaptcha_response
+    })
+    req = Request('https://www.google.com/recaptcha/api/siteverify', data.encode())
+
+    try:
+        response = json.load(urlopen(req))
+
+        if response['success']:
+            return True
+    except:
+        pass
+
+    return False

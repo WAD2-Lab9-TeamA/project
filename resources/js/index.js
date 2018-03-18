@@ -46,6 +46,7 @@ $(() => {
     $(".geolocation").remove();
   }
 
+  // Mobile side nav toggle
   $("#offpage-nav-toggle").click(() => {
     $("body").addClass("offpage-nav-visible");
   });
@@ -53,6 +54,8 @@ $(() => {
   $("#overlay").click(() => {
     $("body").removeClass("offpage-nav-visible");
   });
+
+  window.submitPageForm = () => $('#page-form').submit();
 });
 
 $(window).on('load', (e) => {

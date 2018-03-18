@@ -4,9 +4,11 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewpoint" content="width=device-width, initial-scale=1">
-		<title>Find the best deals!</title>
+		<meta name="description" content="Find the best deals! Studeals is a community where students can get and share local student deals!">
+		<title>{% block title %}Home{% endblock %} - Studeals</title>
 		<link rel="stylesheet" href="{% static "css/bundle.css" %}" type="text/css">
 		<script type="text/javascript" src="{% static "js/bundle.js" %}" defer></script>
+		{% block scripts %}{% endblock %}
 	</head>
 	<body class="pt-4 loading">
 		<div id="offpage-nav">
