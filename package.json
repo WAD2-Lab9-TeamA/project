@@ -8,6 +8,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.8",
     "autoprefixer": "^8.1.0",
     "bootstrap": "^4.0.0",
+    "cross-env": "^5.1.4",
     "css-loader": "^0.28.10",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "img-loader": "^2.0.1",
@@ -27,8 +28,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "NODE_ENV=development webpack-cli",
-    "build": "NODE_ENV=production webpack-cli"
+    "dev": "cross-env NODE_ENV=development webpack-cli",
+    "build": "cross-env NODE_ENV=production webpack-cli"
   },
   "repository": {
     "type": "git",
