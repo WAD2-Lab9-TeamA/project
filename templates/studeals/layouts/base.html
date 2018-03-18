@@ -11,8 +11,8 @@
 	<body class="pt-4 loading">
 		<div id="offpage-nav">
 			<div class="list-group">
-			  <a href="#" class="rounded-0 list-group-item list-group-item-action">Home</a>
-			  <a href="#" class="list-group-item list-group-item-action">Offers</a>
+			  <a href="{% url 'index' %}" class="rounded-0 list-group-item list-group-item-action">Home</a>
+			  <a href="{% url 'offers' %}" class="list-group-item list-group-item-action">Offers</a>
 			  <a href="#" class="list-group-item list-group-item-action">Categories</a>
 			  <a href="#" class="list-group-item list-group-item-action">Contact Us</a>
 				{% if user.is_authenticated %}

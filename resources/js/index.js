@@ -24,6 +24,7 @@ fontawesome.library.add(faHome, faUser);
 $(() => {
   // Logo loading
   $("#logo").attr('src', require('../images/logo.svg'));
+  $(".profile_picture").attr('src', require('../images/profile.svg'));
 
   // Geolocation check
   if (navigator.geolocation) {

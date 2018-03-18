@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="{{ protocol }}://{{ domain }}{% static "css/bundle.css" %}" type="text/css">
+	</head>
+	<body>
+    <div class="container my-4">
+      <a href="{{ protocol }}://{{ domain }}{% url 'index' %}"><img id="logo" class="img-fluid logo"></a>
+      <hr>
+    </div>
+		{% block main %}{% endblock %}
+		<footer class="my-4 container text-muted footer">
+			<hr>
+			<small>
+				Copyright &copy; {% now "Y" %} Studeals. All rights are reserved.
+			</small>
+		</footer>
+	</body>
+</html>
