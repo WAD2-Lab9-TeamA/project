@@ -1,5 +1,8 @@
 {% extends 'studeals/layouts/base.html' %}
 
+{% block title %}Login{% endblock %}
+{% block scripts %}<script src='https://www.google.com/recaptcha/api.js'></script>{% endblock %}
+
 {% block main %}
 <div class="mx-3">
 	<div class="card form-card">
@@ -7,7 +10,7 @@
 	    Login
 	  </div>
 	  <div class="card-body">
-			<form method="post" action="{% url 'login' %}">
+			<form id="page-form" method="post" action="{% url 'login' %}">
 		    {% csrf_token %}
 
 				{% if messages %}
@@ -38,7 +41,7 @@
 
 		    <p><a href="{% url 'request_password_reset' %}">I forgot my username/password</a></p>
 
-		    <button type="submit" class="my-2 btn btn-lg btn-primary">Login</button>
+		    <button type="submit" data-callback="submitPageForm" data-sitekey="{{ recaptcha_public_key }}" class="g-recaptcha my-2 btn btn-lg btn-primary">Login</button>
 		    or <a href="{% url 'register' %}">sign up now</a>.
 		  </form>
 	  </div>

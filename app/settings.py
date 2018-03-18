@@ -150,3 +150,7 @@ EMAIL_HOST_USER = 'no-reply@studeals.sowia.me'
 EMAIL_HOST_PASSWORD = 'StudealsWAD2App'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'Studeals No-reply <no-reply@studeals.sowia.me>'
+
+# reCAPTCHA Invisible settings
+RECAPTCHA_PUBLIC_KEY = '6LdHY00UAAAAACiHAhliUVgqIorh0elu6Kdtii_I'
+RECAPTCHA_SECRET_KEY = '6LdHY00UAAAAAN9I7a5xSmSpiIDyQAU4wtOOZe6y'

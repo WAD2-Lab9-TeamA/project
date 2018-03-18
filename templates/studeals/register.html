@@ -1,5 +1,8 @@
 {% extends 'studeals/layouts/base.html' %}
 
+{% block title %}Register{% endblock %}
+{% block scripts %}<script src='https://www.google.com/recaptcha/api.js'></script>{% endblock %}
+
 {% block main %}
 <div class="mx-3">
 	<div class="card form-card">
@@ -14,10 +17,10 @@
 				{% endfor %}
 			</div>
 			{% endif %}
-			<form method="post" action="{% url 'register' %}">
+			<form id="page-form" method="post" action="{% url 'register' %}">
 				{% include 'studeals/widgets/form.html' %}
 
-				<button type="submit" class="btn btn-lg btn-primary">Register</button>
+				<button type="submit" data-callback="submitPageForm" data-sitekey="{{ recaptcha_public_key }}" class="g-recaptcha btn btn-lg btn-primary">Register</button>
 				or <a href="{% url 'login' %}">login</a>.
 			</form>
 		</div>
