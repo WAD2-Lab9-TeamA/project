@@ -11,7 +11,7 @@
 ## Requirements
 
 - Python 3.6
-- Django (web framework)
+- Django 1.11 (web framework)
 - Pillow (for images handling)
 - [Django Widget Tweaks](https://github.com/jazzband/django-widget-tweaks)
 - Node.js with NPM (for js and css)
@@ -20,7 +20,7 @@
 
 Using PIP install the required libraries:
 ```
-pip install Django Pillow django-widget-tweaks
+pip install Django==1.11.0 Pillow django-widget-tweaks
 ```
 Before running the application, the assets need to be compiled. Using npm it is needed to download the dependencies first. Run the following command in the project directory:
 ```
