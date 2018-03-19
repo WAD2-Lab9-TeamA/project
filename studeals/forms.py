@@ -72,7 +72,7 @@ class PasswordResetRequestForm(forms.Form):
 	email = forms.CharField(widget=forms.EmailInput(), help_text="Enter your account's email address.")
 
 	def clean(self):
-		cleaned_data = super(PasswordResetRequestFOrm, self).clean()
+		cleaned_data = super(PasswordResetRequestForm, self).clean()
 		recaptcha_response = self.data['g-recaptcha-response']
 
 		if not (recaptcha_response and recaptcha_check(recaptcha_response)):
