@@ -1,0 +1,28 @@
+{% extends 'studeals/layouts/split.html' %}
+
+{% block title %}Offers{% endblock %}
+
+{% block content %}
+	<h2 class="mb-4">Add Offer</h2>
+	<form id="offer form" method="post" action="{% url 'add_offer' category.slug %}">
+			{% csrf_token %}
+			{% if category %}	
+				{% for hidden in form.hidden_fields %}
+					{{ hidden }}
+				{% endfor %}
+				{% for field in form.visible_fields %}
+					{{ field.errors }}
+					{{ field.help_text }}
+					{{ field }}
+				{% endfor %}
+			{% else %}
+				A Category by this name does not exist
+			{% endif %}
+			<input type="submit" name="submit" value="Add offer"/>
+		</form>
+			
+{% endblock %}
+
+
+{% block sidebar %}
+{% endblock %}
