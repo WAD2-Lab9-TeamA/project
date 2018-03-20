@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
+from django import forms
 from app import settings
 from datetime import datetime
 from studeals.models import Category, Offer, UserProfile
@@ -69,14 +70,7 @@ def add_offer(request, category_name_slug):
 			if category:
 				offer=form.save(commit=False)
 				offer.category=Category.objects.get(slug=category_name_slug)
-				offer.title=form.title
-				offer.price=price
-				offer.description = form.description 
-				offer.place_address = form.place_address
-				offer.place_name = place_name
-				offer.picture = forms.ImageField(upload_to='offers', blank=True)
-				offer.expiration_date = expiration_date
-				offer.date_added=forms.DateField(default=datetime.now)
+				offer.date_added=forms.DateField(initial=datetime.now)
 				offer.save()
 				return show_category(request, category_name_slug)
 		else:
