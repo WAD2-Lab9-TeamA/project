@@ -16,7 +16,7 @@
 			  <a href="{% url 'index' %}" class="rounded-0 list-group-item list-group-item-action">Home</a>
 			  <a href="{% url 'offers' %}" class="list-group-item list-group-item-action">Offers</a>
 			  <a href="{% url 'categories' %}" class="list-group-item list-group-item-action">Categories</a>
-			  <a href="#" class="list-group-item list-group-item-action">Contact Us</a>
+			  <a href="{% url 'contact' %}" class="list-group-item list-group-item-action">Contact Us</a>
 				{% if user.is_authenticated %}
 			  <a href="#" class="rounded-0 list-group-item active list-group-item-action">My account</a>
 				{% else %}
@@ -39,7 +39,7 @@
 						<li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="{% url 'offers' %}">Offers</a></li>
 						<li class="nav-item"><a href="{% url 'categories' %}" class="nav-link">Categories</a></li>
-						<li class="nav-item"><a href="#" class="nav-link">Contact Us</a></li>
+						<li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact Us</a></li>
 						{% if user.is_authenticated %}
 						<li class="nav-item"><a href="#" class="active nav-link">My account</a></li>
 						{% else %}

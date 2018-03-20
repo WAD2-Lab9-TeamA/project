@@ -70,7 +70,7 @@ def add_offer(request, category_name_slug):
 			if category:
 				offer=form.save(commit=False)
 				offer.category=Category.objects.get(slug=category_name_slug)
-				offer.date_added=forms.DateField(initial=datetime.now)
+				offer.date_added=datetime.now
 				offer.save()
 				return show_category(request, category_name_slug)
 		else:
@@ -79,6 +79,9 @@ def add_offer(request, category_name_slug):
 		form=OfferForm()
 	context_dict={'form':form, 'category':category}
 	return render(request, 'studeals/add_offer.html', context_dict)
+def contact(request):
+	return render(request, 'studeals/contact.html', {})
+	
 @guest
 def register(request):
 	if request.method == 'POST':
