@@ -12,11 +12,7 @@ from django import forms
 from app import settings
 from datetime import datetime
 from studeals.models import Category, Offer, UserProfile
-<<<<<<< HEAD
 from studeals import forms
-=======
-from studeals.forms import UserForm, UserProfileForm, PasswordResetForm, PasswordResetRequestForm, OfferForm
->>>>>>> ebe2e2b4eda7c8dfc0f86284172ef84df254a404
 from studeals.auth import activate, authenticate, tokens, send_password_reset_email, recaptcha_check
 from studeals.auth.decorators import guest
 from pprint import pprint

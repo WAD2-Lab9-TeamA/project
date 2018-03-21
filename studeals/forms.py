@@ -112,7 +112,6 @@ class PasswordResetRequestForm(forms.Form):
             self.add_error(None, 'The CAPTCHA validation failed, please try again.')
 
         return cleaned_data
-<<<<<<< HEAD
 
 class PasswordUpdateForm(forms.Form):
     """
@@ -131,7 +130,7 @@ class PasswordUpdateForm(forms.Form):
             self.add_error('confirm_new_password', "The entered passwords do not match.")
 
         return cleaned_data
-=======
+
 class OfferForm(forms.ModelForm):
 	slug=forms.CharField(widget=forms.HiddenInput(), required=False)
 	category=slug
@@ -148,4 +147,3 @@ class OfferForm(forms.ModelForm):
 	class Meta:
 		model=Offer
 		exclude=('category',)
->>>>>>> ebe2e2b4eda7c8dfc0f86284172ef84df254a404

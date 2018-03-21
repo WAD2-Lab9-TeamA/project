@@ -22,7 +22,7 @@ class Category(models.Model):
 
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	picture=models.ImageField(upload_to='media/profile_images', default='media/profile_images/default.jpg')
+	picture=models.ImageField(upload_to='media/profile_images')
 	def __str__(self):
 		return self.user.username
 
