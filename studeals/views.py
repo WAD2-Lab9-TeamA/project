@@ -63,9 +63,9 @@ def add_offer(request, category_name_slug):
 	except Category.DoesNotExist:
 		category=None
 
-	form=OfferForm()
+	form = forms.OfferForm()
 	if request.method=='POST':
-		form=OfferForm(request.POST)
+		form = forms.OfferForm(request.POST)
 		if form.is_valid():
 			if category:
 				offer=form.save(commit=False)
@@ -76,7 +76,7 @@ def add_offer(request, category_name_slug):
 		else:
 			print(form.errors)
 	else:
-		form=OfferForm()
+		form = forms.OfferForm()
 	context_dict={'form':form, 'category':category}
 	return render(request, 'studeals/add_offer.html', context_dict)
 def contact(request):
