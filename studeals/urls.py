@@ -28,6 +28,7 @@ urlpatterns = [
 	url(r'^offer/(?P<offer_title_slug>[\w\-]+)/$', views.show_offer, name='show_offer'),
 	url(r'^(?P<category_name_slug>[\w\-]+)/add_offer/$', views.add_offer, name='add_offer'),
 	url(r'^login/$', views.user_login, name='login'),
+	url(r'^my_account/$', views.my_account, name='my_account'),
 	url(r'^contact/$', views.contact, name='contact'),
 	url(r'^logout/$', views.user_logout, name='logout'),
 	url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate_user, name='activate_user'),

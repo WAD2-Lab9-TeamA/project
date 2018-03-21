@@ -1,0 +1,17 @@
+{% extends 'studeals/layouts/split.html' %}
+
+{% block content %}
+	<h2 class="mb-4">{{ user.username}}</h2>
+		E-mail: {{user.email}} <br>
+		Date Joined: {{user.date_joined}}<br>
+		Last Login: {{user.last_login}}<br>
+		<br>
+		<a href={% url 'logout' %} >Log out</a>
+		
+		
+
+{% endblock %}
+
+
+{% block sidebar %}
+{% endblock %}

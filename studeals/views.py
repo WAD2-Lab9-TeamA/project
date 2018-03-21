@@ -81,6 +81,9 @@ def add_offer(request, category_name_slug):
 	return render(request, 'studeals/add_offer.html', context_dict)
 def contact(request):
 	return render(request, 'studeals/contact.html', {})
+
+def my_account(request):
+	return render(request, 'studeals/my_account.html', {})
 	
 @guest
 def register(request):
