@@ -1,0 +1,68 @@
+{% extends 'studeals/layouts/base.html' %}
+{% load studeals_tags %}
+
+{% block title %}My account{% endblock %}
+
+{% block main %}
+<div class="mx-3">
+<div class="card large-card">
+    <div class="card-header">
+        My account
+    </div>
+    <div class="card-body">
+        {% include 'studeals/widgets/messages.html' %}
+                
+        <div id="page-alert" class="alert alert-danger" style="display: none"></div>
+        <div class="row">
+            <div class="col-sm-3 pb-3 text-center">
+                <form id="update-picture" action="{% url 'update_picture' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" accept="image/*" class="d-none" id="picture-field" name="picture">
+                </form>
+                <div class="picture-update">
+                    {% profile_picture %}
+                    <div class="overlay">
+                        <div class="p-2 w-100 h-100 text-center d-flex justify-content-center align-items-center">
+                            Choose picture
+                        </div>
+                    </div>
+                </div>
+                <button id="remove-picture" class="btn mt-2 w-100 btn-outline-danger{% if not user.userprofile.picture %} d-none{% endif %}" type="button">
+                    <i class="fas fa-times fa-fw"></i> Remove picture
+                </button>
+            </div>
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <p><b>Your username</b></p>
+                        <pre><code>{{ user.username }}</code></pre>
+                    </div>
+                    <div class="col-sm-7">
+                        <p><b>Your institution email address</b></p>
+                        <pre><code>{{ user.email }}</code></pre>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <p><b>Date joined</b></p>
+                        <pre><code>{{ user.date_joined|date:'D d F Y' }}</code></pre>
+                    </div>
+                    <div class="col-sm-7">
+                        <p><b>Your last login</b></p>
+                        <pre><code>{{ user.last_login|date:'D d F Y, H:i' }}</code></pre>
+                    </div>
+                </div>
+                <h5 class="my-4">Change password</h5>
+                <form action="{% url 'my_account' %}" method="post">
+                    {% csrf_token %}
+
+                    {% include 'studeals/widgets/form.html' %}
+
+                    <button type="submit" class="btn btn-primary">Update password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

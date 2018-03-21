@@ -13,9 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.conf.urls import include
 from studeals import views
 
 urlpatterns = [
@@ -30,5 +31,8 @@ urlpatterns = [
 	url(r'^logout/$', views.user_logout, name='logout'),
 	url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate_user, name='activate_user'),
     url(r'^password-reset/$', views.request_password_reset, name='request_password_reset'),
-    url(r'^password-reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.password_reset, name='password_reset')
-]
+    url(r'^password-reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.password_reset, name='password_reset'),
+    url(r'^my-account/$', views.my_account, name='my_account'),
+    url(r'^my-account/update-picture/$', views.update_picture, name='update_picture'),
+    url(r'^my-account/remove-picture/$', views.remove_picture, name="remove_picture")
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -13,13 +13,7 @@
 			<form id="page-form" method="post" action="{% url 'login' %}">
 		    {% csrf_token %}
 
-				{% if messages %}
-				{% for msg in messages %}
-		        <div class="alert alert-{{msg.level_tag}}" role="alert">
-		        {{msg.message}}
-		        </div>
-		    {% endfor %}
-				{% endif %}
+				{% include 'studeals/widgets/messages.html' %}
 
 				{% if errors %}
 				<div class="alert alert-danger">

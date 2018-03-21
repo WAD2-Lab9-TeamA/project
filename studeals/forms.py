@@ -112,3 +112,21 @@ class PasswordResetRequestForm(forms.Form):
             self.add_error(None, 'The CAPTCHA validation failed, please try again.')
 
         return cleaned_data
+
+class PasswordUpdateForm(forms.Form):
+    """
+    Form to update an user password
+    """
+    your_password = forms.CharField(widget=forms.PasswordInput())
+    new_password = forms.CharField(widget=forms.PasswordInput())
+    confirm_new_password = forms.CharField(widget=forms.PasswordInput())
+
+    def clean(self):
+        cleaned_data = super(PasswordUpdateForm, self).clean()
+        password = cleaned_data.get('new_password')
+        confirm_password = cleaned_data.get('confirm_new_password')
+
+        if password != confirm_password:
+            self.add_error('confirm_new_password', "The entered passwords do not match.")
+
+        return cleaned_data

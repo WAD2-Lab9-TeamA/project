@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.tokens import default_token_generator
@@ -10,10 +10,10 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from app import settings
 from studeals.models import Category, Offer, UserProfile
-from studeals.forms import UserForm, UserProfileForm, PasswordResetForm, PasswordResetRequestForm
+from studeals import forms
 from studeals.auth import activate, authenticate, tokens, send_password_reset_email, recaptcha_check
 from studeals.auth.decorators import guest
-
+from pprint import pprint
 def index(request):
 
 	offers_list=Offer.objects.order_by('expiration_date')[:5]
@@ -60,7 +60,7 @@ def show_offer(request, offer_title_slug):
 @guest
 def register(request):
 	if request.method == 'POST':
-		form = UserForm(data=request.POST)
+		form = forms.UserForm(data=request.POST)
 
 		if form.is_valid():
 			user = form.save()
@@ -76,7 +76,7 @@ def register(request):
 		else:
 			print(form.errors)
 	else:
-		form = UserForm()
+		form = forms.UserForm()
 
 	return render(request, 'studeals/register.html', {'form': form, 'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY})
 
@@ -102,7 +102,7 @@ def activate_user(request, uidb64, token):
 @guest
 def request_password_reset(request):
 	if request.method == 'POST':
-		form = PasswordResetRequestForm(data=request.POST)
+		form = forms.PasswordResetRequestForm(data=request.POST)
 
 		if form.is_valid():
 			try:
@@ -113,7 +113,7 @@ def request_password_reset(request):
 			except User.DoesNotExist:
 				form.add_error('email', 'There is no user registered with this email address in our system.')
 	else:
-		form = PasswordResetRequestForm()
+		form = forms.PasswordResetRequestForm()
 
 	return render(request, 'studeals/password_reset_request.html', {'form': form, 'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY})
 
@@ -128,7 +128,7 @@ def password_reset(request, uidb64, token):
 	if user is not None:
 		if default_token_generator.check_token(user, token):
 			if request.method == 'POST':
-				form = PasswordResetForm(data=request.POST,instance=user)
+				form = forms.PasswordResetForm(data=request.POST,instance=user)
 
 				if form.is_valid():
 					user = form.save(commit=False)
@@ -138,7 +138,7 @@ def password_reset(request, uidb64, token):
 					messages.success(request, 'Your password has been reset successfully! You can now login!')
 					return HttpResponseRedirect(reverse('login'))
 			else:
-				form = PasswordResetForm()
+				form = forms.PasswordResetForm()
 
 			return render(request, 'studeals/password_reset.html', {'form': form, 'uid': uidb64, 'token': token, 'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY})
 
@@ -182,3 +182,62 @@ def user_logout(request):
 	logout(request)
 	messages.success(request, 'You have been logged out successfully!')
 	return HttpResponseRedirect(reverse('login'))
+
+@login_required
+def my_account(request):
+	if request.method == 'POST':
+		form = forms.PasswordUpdateForm(request.POST)
+		if form.is_valid():
+			password = request.POST.get('your_password')
+			new_password = request.POST.get('new_password')
+
+			if request.user.check_password(password):
+				request.user.set_password(new_password)
+				request.user.save()
+				login(request, request.user)
+
+				messages.success(request, 'Your password has been updated successfully!')
+			else:
+				form.add_error('your_password', 'The entered password is not correct.')
+	else:
+		form = forms.PasswordUpdateForm()
+
+	return render(request, 'studeals/my_account.html', {'form': form})
+
+@login_required
+def update_picture(request):
+	if request.method == 'POST':
+		form = forms.UserProfileForm(request.POST,request.FILES,instance=request.user.userprofile)
+
+		if form.is_valid():
+			userprofile = form.save()
+			return JsonResponse({
+				'status': 'success'
+			})
+		else:
+			return JsonResponse({
+				'status': 'error',
+				'message': 'The file provided is not a valid image.'
+			})
+	else:
+		return JsonResponse({
+			'status': 'Bad request'
+		}, status=400)
+
+@login_required
+def remove_picture(request):
+	try:
+		if request.user.userprofile.picture:
+			request.user.userprofile.picture.delete(save=True)
+
+			return JsonResponse({
+				'status': 'ok'
+			})
+		
+		return JsonResponse({
+			'status': 'unchanged'
+		})
+	except:
+		return JsonResponse({
+			'status': 'error'
+		}, status=500)
