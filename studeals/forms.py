@@ -132,18 +132,37 @@ class PasswordUpdateForm(forms.Form):
         return cleaned_data
 
 class OfferForm(forms.ModelForm):
-	slug=forms.CharField(widget=forms.HiddenInput(), required=False)
-	category=slug
-	title=forms.CharField(max_length=20)
-	price=forms.CharField(max_length=10)
-	description = forms.CharField(max_length=200)
-	place_address = forms.CharField(max_length=200)
-	place_name = forms.CharField(max_length=50)
-	picture = forms.ImageField(required=False)
-	expiration_date = forms.DateField()
-	date_added=forms.DateField(initial=now())
-	
-	
-	class Meta:
-		model=Offer
-		exclude=('category',)
+    """
+    Form to insert an offer
+    """
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+    category = slug
+    title = forms.CharField(max_length=20)
+    price = forms.CharField(max_length=10)
+    description = forms.CharField(max_length=200)
+    place_address = forms.CharField(max_length=200)
+    place_name = forms.CharField(max_length=50)
+    picture = forms.ImageField(required=False)
+    expiration_date = forms.DateField()
+    date_added = forms.DateField(initial=now())
+
+    class Meta:
+        model = Offer
+        exclude = ('category',)
+
+class ContactUsForm(forms.Form):
+    """
+    Contact form
+    """
+    your_name = forms.CharField()
+    your_email_address = forms.EmailField(help_text="The email address we will answer you at.")
+    message = forms.CharField(widget=forms.Textarea(attrs={'rows':5}))
+
+    def clean(self):
+        cleaned_data = super(ContactUsForm, self).clean()
+        recaptcha_response = self.data['g-recaptcha-response']
+
+        if not (recaptcha_response and recaptcha_check(recaptcha_response)):
+            self.add_error(None, 'The CAPTCHA validation failed, please try again.')
+
+        return cleaned_data

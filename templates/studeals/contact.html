@@ -1,22 +1,71 @@
-{% extends 'studeals/layouts/split.html' %}
+{% extends 'studeals/layouts/base.html' %}
 
-{% block content %}
-	<h2 class="mb-4">Contact Us</h2>
-		<h4> The Team:</h4>
-		<h5> Luca Vizzaro</h5>
-			<li>E-mail: 2252593v@student.gla.ac.uk</li>
-			<li><a href="https://www.facebook.com/sevenarth">Facebook: Luca Vizzaro</a></li>
-		<h5> Ivan Delev</h5>
-			<li>E-mail: 2262800d@student.gla.ac.uk</li>
-			<li><a href="https://www.facebook.com/IvanNiDelev">Facebook:Ivan Delev</a></li>
-		<h5> Ibrahim Javed</h5>
-			<li>E-mail: 2265799j@student.gla.ac.uk</li>
-			<li><a href="https://www.facebook.com/Ibrahim.A.Javed">Facebook: Ibrahim Javed</a></li>
-		<h5> Alek Panfilov</h5>
-			<li>E-mail: 2205693p@student.gla.ac.uk</li>
-			<li><a href="goo.gl/d5cA9h">Facebook: Alek Panfilov</a></li>
-{% endblock %}
+{% block title %}Contact us{% endblock %}
+{% block scripts %}<script src='https://www.google.com/recaptcha/api.js'></script>{% endblock %}
 
-
-{% block sidebar %}
+{% block main %}
+<div class="container">
+		<div class="row mt-5">
+			<div class="border-left col-sm-6">
+				<h3 class="my-3">About Studeals</h3>
+				<p>Studeals is a project made for educational purposes as part of the WAD2 coursework. The main function of this web application is to provide a website where students can share and get easy access to local student deals.</p>
+				<p>Any technical information regarding this project can be found at its GitHub repository.</p>
+				<a href="https://github.com/WAD2-Lab9-TeamA/project" target="_blank" class="btn btn-sm btn-outline-primary"><i class="fab fa-fw fa-github"></i> Go to the GitHub repository</a>
+			</div>
+			<div class="col-sm-6">
+				<h3 class="my-3">Contact form</h3>
+				<div class="rounded border p-3">
+					{% include 'studeals/widgets/messages.html' %}
+					<form id="page-form" action="{% url 'contact' %}" method="post">
+						{% csrf_token %}
+						{% include 'studeals/widgets/form.html' %}
+						<button type="submit" data-callback="submitPageForm" data-sitekey="{{ recaptcha_public_key }}" class="btn btn-primary g-recaptcha">Submit message</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<h3 class="my-4"> The Team</h3>
+		<div class="card-deck">
+			<div class="card">
+				<img src="https://graph.facebook.com/1848033170/picture?type=large" alt="Luca Vizzarro's profile picture" class="card-img-top">
+				<div class="card-body">
+					<h5 class="card-title">Luca Vizzarro</h5>
+					<p class="card-text">
+						<a title="Facebook profile" href="https://www.facebook.com/sevenarth" target="_blank"><i class="fab fa-fw fa-2x fa-facebook"></i></a>
+						<a title="Email address" href="mailto:2252593v@student.gla.ac.uk"><i class="fas fa-fw fa-2x fa-at"></i></a>
+					</p>
+				</div>
+			</div>
+			<div class="card">
+				<img src="https://graph.facebook.com/100000506448980/picture?type=large" alt="Ivan Delev's profile picture" class="card-img-top">
+				<div class="card-body">
+					<h5 class="card-title">Ivan Delev</h5>
+					<p class="card-text">
+						<a title="Facebook profile" title="Facebook profile" href="https://www.facebook.com/IvanNiDelev" target="_blank"><i class="fab fa-fw fa-2x fa-facebook"></i></a>
+						<a title="Email address" href="mailto:2262800d@student.gla.ac.uk"><i class="fas fa-fw fa-2x fa-at"></i></a>
+					</p>
+				</div>
+			</div>
+			<div class="card">
+				<img src="https://graph.facebook.com/100000465603694/picture?type=large" alt="Ibrahim Javed's profile picture" class="card-img-top">
+				<div class="card-body">
+					<h5 class="card-title">Ibrahim Javed</h5>
+					<p class="card-text">
+						<a title="Facebook profile" href="https://www.facebook.com/Ibrahim.A.Javed" target="_blank"><i class="fab fa-fw fa-2x fa-facebook"></i></a>
+						<a title="Email address" href="mailto:2265799j@student.gla.ac.uk"><i class="fas fa-fw fa-2x fa-at"></i></a>
+					</p>
+				</div>
+			</div>
+			<div class="card">
+				<img src="https://graph.facebook.com/100013098992415/picture?type=large" alt="Aleksej Panfilov's profile picture" class="card-img-top">
+				<div class="card-body">
+					<h5 class="card-title">Aleksej Panfilov</h5>
+					<p class="card-text">
+						<a title="Facebook profile" href="https://www.facebook.com/profile.php?id=100013098992415" target="_blank"><i class="fab fa-fw fa-2x fa-facebook"></i></a>
+						<a title="Email address" href="mailto:2205693p@student.gla.ac.uk"><i class="fas fa-fw fa-2x fa-at"></i></a>
+					</p>
+				</div>
+			</div>
+		</div>
+</div>
 {% endblock %}

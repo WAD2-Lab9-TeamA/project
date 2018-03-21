@@ -79,8 +79,21 @@ def add_offer(request, category_name_slug):
 		form = forms.OfferForm()
 	context_dict={'form':form, 'category':category}
 	return render(request, 'studeals/add_offer.html', context_dict)
+
 def contact(request):
-	return render(request, 'studeals/contact.html', {})
+	if request.method == 'POST':
+		form = forms.ContactUsForm(request.POST)
+
+		if form.is_valid():
+			# TODO: send email to webmasters
+			messages.success(request, 'Thank you for contacting us! We will contact you as soon as possible at the provided email address.')
+	else:
+		form = forms.ContactUsForm()
+	
+	return render(request, 'studeals/contact.html', {
+		'form': form,
+		'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY
+		})
 
 def my_account(request):
 	return render(request, 'studeals/my_account.html', {})

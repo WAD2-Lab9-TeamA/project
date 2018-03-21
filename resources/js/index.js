@@ -17,9 +17,9 @@ import '../sass/index.scss';
 
 // Fonts import
 
-import fontawesome from '@fortawesome/fontawesome';
-import { faHome, faUser } from '@fortawesome/fontawesome-free-solid';
-fontawesome.library.add(faHome, faUser);
+import '@fortawesome/fontawesome';
+import '@fortawesome/fontawesome-free-solid';
+import '@fortawesome/fontawesome-free-brands';
 
 // Images import
 const LOGO_IMAGE = require('../images/logo.svg');
