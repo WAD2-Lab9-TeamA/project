@@ -32,7 +32,7 @@ SECRET_KEY = 'uk*wxa2&#mdd6y(#7b=f#0up_)%t&q(#@p&f@d(caq__*auwn6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['wadgroup9.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
