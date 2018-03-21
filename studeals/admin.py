@@ -10,6 +10,9 @@ class CategoryAdmin(admin.ModelAdmin):
 class OfferAdmin(admin.ModelAdmin):
     pass
 
+
+
+
 admin.site.register(UserProfile)
 admin.site.register(Comment)
 admin.site.register(Vote)

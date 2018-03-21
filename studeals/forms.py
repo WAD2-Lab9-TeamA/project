@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
-from studeals.models import UserProfile
+from studeals.models import UserProfile, Offer, Category
 from studeals.auth import recaptcha_check
-
+from django.utils.timezone import now
 class UserForm(forms.ModelForm):
     """
     Form for user registration
@@ -112,6 +112,7 @@ class PasswordResetRequestForm(forms.Form):
             self.add_error(None, 'The CAPTCHA validation failed, please try again.')
 
         return cleaned_data
+<<<<<<< HEAD
 
 class PasswordUpdateForm(forms.Form):
     """
@@ -130,3 +131,21 @@ class PasswordUpdateForm(forms.Form):
             self.add_error('confirm_new_password', "The entered passwords do not match.")
 
         return cleaned_data
+=======
+class OfferForm(forms.ModelForm):
+	slug=forms.CharField(widget=forms.HiddenInput(), required=False)
+	category=slug
+	title=forms.CharField(max_length=20)
+	price=forms.CharField(max_length=10)
+	description = forms.CharField(max_length=200)
+	place_address = forms.CharField(max_length=200)
+	place_name = forms.CharField(max_length=50)
+	picture = forms.ImageField(required=False)
+	expiration_date = forms.DateField()
+	date_added=forms.DateField(initial=now())
+	
+	
+	class Meta:
+		model=Offer
+		exclude=('category',)
+>>>>>>> ebe2e2b4eda7c8dfc0f86284172ef84df254a404

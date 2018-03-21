@@ -11,9 +11,7 @@
 			Expires: {{offer.expiration_date}}</br>
 			Rating: {{offer.rating}} out of 5</br>
 			Added by: {{offer.user}}</br>
-		{% if user.is_authenticated %}
-			<a href='/studeals/category/{{category.slug}}/add_page/'>Add Page</a>
-		{% endif %}
+		
 	{% else %}
 		The specified category does not exist!
 	{% endif %}

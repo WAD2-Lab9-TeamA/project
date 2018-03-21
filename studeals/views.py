@@ -8,9 +8,15 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
+from django import forms
 from app import settings
+from datetime import datetime
 from studeals.models import Category, Offer, UserProfile
+<<<<<<< HEAD
 from studeals import forms
+=======
+from studeals.forms import UserForm, UserProfileForm, PasswordResetForm, PasswordResetRequestForm, OfferForm
+>>>>>>> ebe2e2b4eda7c8dfc0f86284172ef84df254a404
 from studeals.auth import activate, authenticate, tokens, send_password_reset_email, recaptcha_check
 from studeals.auth.decorators import guest
 from pprint import pprint
@@ -29,34 +35,60 @@ def categories(request):
 	return render(request,'studeals/categories.html',context=context_dict)
 
 def show_category(request, category_name_slug):
-     
-    context_dict={}
-
-    try:
-        category=Category.objects.get(slug=category_name_slug)
-        offers=Offer.objects.filter(category=category)
-
-        context_dict['offers']=offers
-        context_dict['category']=category
-
-    except Category.DoesNotExist:
-        context_dict['category']=None
-        context_dict['offers']=None
 	
-    return render(request, 'studeals/category.html', context_dict)
+	context_dict={}
+	
+	try:
+		category=Category.objects.get(slug=category_name_slug)
+		offers=Offer.objects.filter(category=category)
+
+		context_dict['offers']=offers
+		context_dict['category']=category
+
+	except Category.DoesNotExist:
+		context_dict['category']=None
+		context_dict['offers']=None
+	
+	return render(request, 'studeals/category.html', context_dict)
 def show_offer(request, offer_title_slug):
-     
-    context_dict={}
-
-    try:
-        offer=Offer.objects.get(slug=offer_title_slug)
-
-        context_dict['offer']=offer
-
-    except Offer.DoesNotExist:
-        context_dict['offer']=None
 	
-    return render(request, 'studeals/offer.html', context_dict)
+	context_dict={}
+	
+	try:
+		offer=Offer.objects.get(slug=offer_title_slug)
+		context_dict['offer']=offer
+		
+	except Offer.DoesNotExist:
+		context_dict['offer']=None
+	return render(request, 'studeals/offer.html', context_dict)
+def add_offer(request, category_name_slug):
+	try:
+		category=Category.objects.get(slug=category_name_slug)
+	except Category.DoesNotExist:
+		category=None
+
+	form=OfferForm()
+	if request.method=='POST':
+		form=OfferForm(request.POST)
+		if form.is_valid():
+			if category:
+				offer=form.save(commit=False)
+				offer.category=Category.objects.get(slug=category_name_slug)
+				offer.date_added=datetime.now
+				offer.save()
+				return show_category(request, category_name_slug)
+		else:
+			print(form.errors)
+	else:
+		form=OfferForm()
+	context_dict={'form':form, 'category':category}
+	return render(request, 'studeals/add_offer.html', context_dict)
+def contact(request):
+	return render(request, 'studeals/contact.html', {})
+
+def my_account(request):
+	return render(request, 'studeals/my_account.html', {})
+	
 @guest
 def register(request):
 	if request.method == 'POST':
