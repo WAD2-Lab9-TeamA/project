@@ -4,20 +4,16 @@
 
 {% block content %}
 	<h2 class="mb-4">Add Offer</h2>
-	<form id="offer form" method="post" action="{% url 'add_offer' category.slug %}">
-			{% csrf_token %}
-			{% if category %}	
+	<form id="offer form" method="post" action="{% url 'add_offer' %}">
+			{% csrf_token %}	
 				{% for hidden in form.hidden_fields %}
 					{{ hidden }}
 				{% endfor %}
 				{% for field in form.visible_fields %}
 					{{ field.errors }}
 					{{ field.help_text }}
-					{{ field }}
+					{{field.name}} {{ field }}<br>
 				{% endfor %}
-			{% else %}
-				A Category by this name does not exist
-			{% endif %}
 			<input type="submit" name="submit" value="Add offer"/>
 		</form>
 			

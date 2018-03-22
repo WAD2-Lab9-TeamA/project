@@ -57,27 +57,20 @@ def show_offer(request, offer_title_slug):
 	except Offer.DoesNotExist:
 		context_dict['offer']=None
 	return render(request, 'studeals/offer.html', context_dict)
-def add_offer(request, category_name_slug):
-	try:
-		category=Category.objects.get(slug=category_name_slug)
-	except Category.DoesNotExist:
-		category=None
-
+def add_offer(request):
 	form = forms.OfferForm()
 	if request.method=='POST':
 		form = forms.OfferForm(request.POST)
 		if form.is_valid():
-			if category:
 				offer=form.save(commit=False)
-				offer.category=Category.objects.get(slug=category_name_slug)
 				offer.date_added=datetime.now
 				offer.save()
-				return show_category(request, category_name_slug)
+				return offers(request)
 		else:
 			print(form.errors)
 	else:
 		form = forms.OfferForm()
-	context_dict={'form':form, 'category':category}
+	context_dict={'form':form}
 	return render(request, 'studeals/add_offer.html', context_dict)
 
 def contact(request):
@@ -94,6 +87,12 @@ def contact(request):
 		'form': form,
 		'recaptcha_public_key': settings.RECAPTCHA_PUBLIC_KEY
 		})
+
+def offers(request):
+	offers_list=Offer.objects.order_by('expiration_date')
+	category_list=Category.objects.all()
+	context_dict={'offers':offers_list, 'categories':category_list}
+	return render(request, 'studeals/offers.html', context_dict)
 
 def my_account(request):
 	return render(request, 'studeals/my_account.html', {})
@@ -185,11 +184,7 @@ def password_reset(request, uidb64, token):
 
 	raise Http404("Invalid password reset request")
 
-def offers(request):
-	offers_list=Offer.objects.order_by('expiration_date')
-	category_list=Category.objects.all()
-	context_dict={'offers':offers_list, 'categories':category_list}
-	return render(request, 'studeals/offers.html', context_dict)
+
 
 @guest
 def user_login(request):
