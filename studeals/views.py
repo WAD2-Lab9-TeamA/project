@@ -47,9 +47,12 @@ def show_offer(request, offer_title_slug):
     try:
         offer = Offer.objects.get(slug=offer_title_slug)
         
-        try:
-            user_rating = Vote.objects.get(user=request.user, offer=offer).vote
-        except Vote.DoesNotExist:
+        if request.user.is_authenticated:
+            try:
+                user_rating = Vote.objects.get(user=request.user, offer=offer).vote
+            except Vote.DoesNotExist:
+                user_rating = None
+        else:
             user_rating = None
         
         return render(request, 'studeals/offer.html', {
