@@ -12,9 +12,6 @@
 		{% else %}
 			<strong>No offers currently in category.</strong>
 		{% endif %}
-		{% if user.is_authenticated %}
-			<a href={% url "add_offer" %}>Add Offer</a>
-		{% endif %}
 	{% else %}
 		The specified category does not exist!
 	{% endif %}
