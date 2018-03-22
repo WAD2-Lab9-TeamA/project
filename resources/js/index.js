@@ -132,8 +132,11 @@ $(() => {
               return xhr;
           }
         }).done((response) => {
-          $("#profile-picture").attr("src", this.src);
-          $("#remove-picture").removeClass("d-none");
+          if(response.status == "success") {
+            $("#profile-picture").attr("src", this.src);
+            $("#remove-picture").removeClass("d-none");
+          } else
+            popPageAlert(response.message)()
         }).fail(
           popPageAlert('An error occurred while uploading the image.')
         ).always(() => {
@@ -167,6 +170,41 @@ $(() => {
         $(".picture-update").removeClass("fixed-overlay");
         loading.html(loading.attr("data-original"));
       });
+  });
+
+  $("div[data-rating]").each(function () {
+    var inner = `<div class="rating-fill" style="width: ${$(this).attr('data-rating')*20}%"></div>`;
+    if($(this).attr("data-rateable") == "true"){
+      $(this).mouseout(() => {
+        $('.rating-fill', $(this)).css('width', $(this).attr('data-rating')*20 + "%");
+      });
+      for(let i = 1; i <= 10; i++)
+        inner += `<div class="selector" style="left: ${(i-1)*10}%" data-idx="${i}"></div>`;
+    }
+    
+    $(this).html(inner);
+    $(".selector").mouseover(function () {
+      $(".rating-fill", $(this).parent()).css("width", $(this).attr("data-idx")*10 + "%")
+    }).click(function () {
+      $("#user-rating").val($(this).attr('data-idx')/2);
+      var eltParent = $(this).parent()
+      $('.selector', eltParent).remove()
+
+      $.ajax({
+        url: window.location.pathname + 'rate/',
+        method: 'POST',
+        data: new FormData($('#rate')[0]),
+        processData: false,
+        contentType: false,
+      }).done((response) => {
+        $("#rating").text(response.rating);
+        $(".rating-fill", eltParent).css("width", parseFloat(response.rating)*20 + "%");
+        eltParent.attr('data-rating', response.rating);
+        $("#rating-message").text('Thank you for voting!');
+      }).fail(() => {
+        $("#rating-message").text('An error occurred while rating, please try again.')
+      });
+    });
   })
 });
 

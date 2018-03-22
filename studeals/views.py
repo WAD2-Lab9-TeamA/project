@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse, HttpResponseBadRequest
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.tokens import default_token_generator
@@ -9,9 +9,10 @@ from django.core.urlresolvers import reverse
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django import forms
+from django.db.models import Avg
 from app import settings
 from datetime import datetime
-from studeals.models import Category, Offer, UserProfile
+from studeals.models import Category, Offer, UserProfile, Vote
 from studeals import forms
 from studeals.auth import activate, authenticate, tokens, send_password_reset_email, recaptcha_check
 from studeals.auth.decorators import guest
@@ -24,39 +25,76 @@ def index(request):
 	return render(request,'studeals/index.html',context=context_dict)
 
 def categories(request):
-	category_list=Category.objects.all()
+	category_list=Category.objects.order_by('name')
 	offers_list=Offer.objects.order_by('date_added')[:1]
 	context_dict={'categories':category_list,'offers': offers_list}
 	
 	return render(request,'studeals/categories.html',context=context_dict)
 
 def show_category(request, category_name_slug):
-	
-	context_dict={}
-	
-	try:
-		category=Category.objects.get(slug=category_name_slug)
-		offers=Offer.objects.filter(category=category)
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+        offers = Offer.objects.filter(category=category)
+        
+        return render(request, 'studeals/category.html', {
+            'category': category,
+            'offers': offers
+        })
+    except Category.DoesNotExist:
+        return Http404()
 
-		context_dict['offers']=offers
-		context_dict['category']=category
-
-	except Category.DoesNotExist:
-		context_dict['category']=None
-		context_dict['offers']=None
-	
-	return render(request, 'studeals/category.html', context_dict)
 def show_offer(request, offer_title_slug):
-	
-	context_dict={}
-	
-	try:
-		offer=Offer.objects.get(slug=offer_title_slug)
-		context_dict['offer']=offer
-		
-	except Offer.DoesNotExist:
-		context_dict['offer']=None
-	return render(request, 'studeals/offer.html', context_dict)
+    try:
+        offer = Offer.objects.get(slug=offer_title_slug)
+        
+        try:
+            user_rating = Vote.objects.get(user=request.user, offer=offer).vote
+        except Vote.DoesNotExist:
+            user_rating = None
+        
+        return render(request, 'studeals/offer.html', {
+            'offer': offer,
+            'category': offer.category,
+            'total_votes': Vote.objects.filter(offer=offer).count(),
+            'user_rating': user_rating
+        })
+    except Offer.DoesNotExist:
+        return Http404()
+
+@login_required
+def rate_offer(request, offer_title_slug):
+    if request.method == 'POST':
+        try:
+            rating = float(request.POST.get('user_rating'))
+        except:
+            return HttpResponseBadRequest()
+
+        if rating > 0 and rating <= 5:
+            try:
+                offer = Offer.objects.get(slug=offer_title_slug)
+                try:
+                    vote = Vote.objects.get(user=request.user, offer=offer)
+                    vote.vote = rating
+                    vote.save()
+                except Vote.DoesNotExist:
+                    vote = Vote.objects.create(
+                        user=request.user,
+                        offer=offer,
+                        vote=rating
+                    )
+
+                votes = Vote.objects.filter(offer=offer).aggregate(Avg('vote'))
+                offer.rating = round(votes['vote__avg'],1)
+                offer.save()
+
+                return JsonResponse({
+                    'rating': offer.rating
+                })
+            except Offer.DoesNotExist:
+                return Http404()
+
+    return HttpResponseBadRequest()
+
 def add_offer(request):
 	form = forms.OfferForm()
 	if request.method=='POST':
@@ -89,9 +127,36 @@ def contact(request):
 		})
 
 def offers(request):
-	offers_list=Offer.objects.order_by('expiration_date')
-	category_list=Category.objects.all()
-	context_dict={'offers':offers_list, 'categories':category_list}
+	orderable = {
+		'most-recent': 'Most recent',
+		'alphabetical': 'Alphabetical',
+		'expires-soon': 'Expiring soon',
+		'highest-rating': 'Highest rating',
+		'lowest-rating': 'Lowest rating'
+	}
+	orderable_models = {
+		'most-recent': '-date_added',
+		'alphabetical': 'title',
+		'expires-soon': 'expiration_date',
+		'highest-rating': '-rating',
+		'lowest-rating': 'rating'
+	}
+
+	if 'orderby' in request.GET and request.GET['orderby'] in orderable:
+		orderby = orderable_models[request.GET['orderby']]
+	else:
+		orderby = list(orderable_models.values())[0]
+	
+	offers_list = Offer.objects.order_by(orderby)
+
+	category_list = Category.objects.all()
+
+	context_dict = {
+		'offers': offers_list,
+		'categories': category_list,
+		'query_string': request.GET,
+		'orderable': orderable
+	}
 	return render(request, 'studeals/offers.html', context_dict)
 
 def my_account(request):

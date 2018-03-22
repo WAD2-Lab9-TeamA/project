@@ -55,9 +55,19 @@ def populate():
 		"rating":"3"}]
 		
 		
-	cats={"Food": {"offers":food},
-		   "Clothes":{"offers":clothes},
-		   "Entertainment":{"offers":enterntainment} }
+	cats = {
+		"Food & Groceries": {"offers":food},
+		"Clothing":{"offers":clothes},
+		"Entertainment":{"offers":enterntainment},
+		"Restaurants & takeaway":{"offers":[]},
+		"Bars & Pubs":{"offers":[]},
+		"Technology":{"offers":[]},
+		"Coffeshops":{"offers":[]},
+		"Bookshops":{"offers":[]},
+		"Office & stationery":{"offers":[]},
+		"Fitness & lifestyle":{"offers":[]},
+		"Cosmetics & drugstores":{"offers":[]}
+	}
 			   
 	for cat, cat_data in cats.items():
 		c=add_cat(cat)

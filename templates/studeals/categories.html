@@ -2,25 +2,17 @@
 {% load studeals_tags %}
 {% block content %}
 	<h2 class="mb-4">Categories</h2>
-		{% if categories %}
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Title</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for category in categories %}
-					<tr>
-					<td><a href={% url 'show_category' category.slug %}>{{category.name}}</a></td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		{% else %}
-			<p class="text-muted">There are currently no categories!</p>
-		{% endif %}
+	{% if categories %}
+	<div class="list-group-flush">
+	{% for category in categories %}
+		<a class="list-group-item list-group-item-action" href="{% url 'show_category' category.slug %}">
+		{% category_picture %} <span class="bigger-text ml-3">{{ category.name }}</span>
+		</a>
+	{% endfor %}
 	</div>
+	{% else %}
+		<p class="text-muted">There are currently no categories!</p>
+	{% endif %}
 {% endblock %}
 
 

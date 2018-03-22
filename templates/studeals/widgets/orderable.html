@@ -1,0 +1,16 @@
+{% load studeals_tags %}
+<div class="dropdown show">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="orderable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {% if 'orderby' in query_string and query_string.orderby in orderable %}
+      {{ orderable|get:query_string.orderby }}
+      {% else %}
+      {{ orderable|firstentry }}
+      {% endif %}
+    </a>
+  
+    <div class="dropdown-menu" aria-labelledby="orderable">
+      {% for id, text in orderable.items %}
+      <a href="{{ request.path }}{% query_string orderby=id %}" class="dropdown-item">{{ text }}</a>
+      {% endfor %}
+    </div>
+</div>

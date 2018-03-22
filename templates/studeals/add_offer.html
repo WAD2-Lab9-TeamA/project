@@ -5,17 +5,10 @@
 {% block content %}
 	<h2 class="mb-4">Add Offer</h2>
 	<form id="offer form" method="post" action="{% url 'add_offer' %}">
-			{% csrf_token %}	
-				{% for hidden in form.hidden_fields %}
-					{{ hidden }}
-				{% endfor %}
-				{% for field in form.visible_fields %}
-					{{ field.errors }}
-					{{ field.help_text }}
-					{{field.name}} {{ field }}<br>
-				{% endfor %}
-			<input type="submit" name="submit" value="Add offer"/>
-		</form>
+		{% csrf_token %}
+		{% include 'studeals/widgets/form.html' %}
+		<button type="submit" class="btn btn-primary">Add offer</button>
+	</form>
 			
 {% endblock %}
 

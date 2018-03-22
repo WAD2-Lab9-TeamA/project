@@ -1,22 +1,56 @@
 {% extends 'studeals/layouts/split.html' %}
+{% load studeals_tags %}
 
-{% block content %}
-	<h2 class="mb-4">{{offer.title }}</h2>
-		{% if offer %}
-			Price: {{offer.price}}</br>
-			Description: {{offer.description}}</br>
-			Address: {{offer.place_address}}</br>
-			Intsitution: {{offer.place_name}}</br>
-			Picture: <img class="img-thubnail">{{offer.picture}}</img></br>
-			Expires: {{offer.expiration_date}}</br>
-			Rating: {{offer.rating}} out of 5</br>
-			Added by: {{offer.user}}</br>
-		
+{% block title %}{{ offer.title }}{% endblock %}
+
+{% block main %}
+{{ block.super }}
+<div class="container">
+	<h4>Comments</h4>
+	{% if offer.comments %}
 	{% else %}
-		The specified category does not exist!
+	<span class="text-muted">There are no comments at the moment!</span>
 	{% endif %}
+</div>
 {% endblock %}
 
+{% block content %}
+	<h2 class="mb-4">Offer</h2>
+	<h3>{{ offer.title }}</h3>
+	<h5><i class="fas fa-fw fa-gift"></i> Promotion: <small>{{ offer.price }}</small></h5>
+	<h5><i class="fas fa-fw fa-map-pin"></i> Where? <small><b>{{ offer.place_name }}</b> &bullet; {{ offer.place_address }}</small></h5>
+	<h5><i class="fas fa-fw fa-calendar-times"></i> Expires on: <small><b>{{ offer.expiration_date }}</b></small></h5>
+	{% if offer.user %}<h5><i class="fas fa-fw fa-user-plus"></i> Added by: <small>{{ offer.user }}</small></h5>{% endif %}
+	<h5><i class="fas fa-fw fa-calendar-plus"></i> Added on: <small>{{ offer.date_added }}</small></h5>
+	{% if offer.description %}
+	<hr>
+	{{ offer.description }}
+	{% endif %}
+	<hr>
+{% endblock %}
 
 {% block sidebar %}
+	<div class="mt-3">
+	{% if offer.picture %}
+	<img src="{{ offer.picture }}" class="img-fluid img-thumbnail" alt="Offer's picture">
+	{% endif %}
+	<div class="rating" data-rating="{{ offer.rating }}"{% if user.is_authenticated %} data-rateable="true"{% endif %}></div>
+	<form id="rate">
+		{% csrf_token %}
+		<input type="hidden" id="user-rating" name="user_rating">
+	</form>
+	<small><i>
+		Aggregate rating of <span id="rating">{{ offer.rating }}</span>/5 based on {{ total_votes }} votes.
+		<b><span id="rating-message">
+			{% if user_rating %}
+			You voted this offer with {{ user_rating }}/5. Choose a star to change your vote.
+			{% else %}
+			Choose a star to rate!
+			{% endif %}
+		</span></b>
+	</i></small>
+	<hr>
+	<a class="list-group-item list-group-item-action rounded mb-3" href="{% url 'show_category' category.slug %}">
+	{% category_picture %} <span class="bigger-text ml-3">{{ category.name }}</span></a>
+</div>
 {% endblock %}

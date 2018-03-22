@@ -21,10 +21,11 @@ class Category(models.Model):
         return self.name
 
 class UserProfile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	picture=models.ImageField(upload_to='media/profile_images')
-	def __str__(self):
-		return self.user.username
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='media/profile_images')
+
+    def __str__(self):
+        return self.user.username
 
 
 
@@ -37,7 +38,7 @@ def save_user(sender, instance, **kwargs):
 
 class Offer(models.Model):
     category = models.ForeignKey(Category)
-    slug=models.SlugField(unique=True)
+    slug = models.SlugField(unique=True)
     title = models.CharField(max_length=20)
     price = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
@@ -45,13 +46,14 @@ class Offer(models.Model):
     place_name = models.CharField(max_length=30)
     picture = models.ImageField(upload_to='offers', blank=True)
     expiration_date = models.CharField(max_length=20)
-    rating = models.IntegerField(default=0)
+    rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL)
+    date_added = models.DateTimeField(default=datetime.now)
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Offer, self).save(*args, **kwargs)
-	
 
     def __str__(self):
         return self.title
@@ -65,7 +67,7 @@ class Comment(models.Model):
         return self.user + " commented " + self.offer + " with : " + self.comment
 
 class Vote(models.Model):
-    vote = models.IntegerField()
+    vote = models.DecimalField(max_digits=2, decimal_places=1)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
 

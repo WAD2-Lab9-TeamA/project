@@ -192,3 +192,42 @@ a:active, a:focus {
     fill: $white;
   }
 }
+
+.category-picture {
+  max-width: 50px;
+}
+
+.bigger-text {
+  font-size: 1.5rem;
+
+  @include media-breakpoint-down(sm) {
+    font-size: 1.2rem;
+  }
+}
+
+.rating {
+  position: relative;
+  background-image: url('../images/empty_stars.svg');
+  background-size: 150px 30px;
+  background-repeat: no-repeat;
+  height: 30px;
+  width: 150px;
+
+  .rating-fill {
+    background-image: url('../images/full_stars.svg');
+    background-size: 150px 30px;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 30px
+  }
+
+  .selector {
+    position: absolute;
+    top: 0;
+    z-index: 50;
+    width: 10%;
+    height: 100%;
+    display: inline-block;
+    cursor: pointer;
+  }
+}
