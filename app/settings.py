@@ -143,8 +143,8 @@ LOGIN_URL = '/login/'
 
 # Email server settings
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.zoho.eu'
-EMAIL_HOST_USER = 'no-reply@studeals.sowia.me'
+EMAIL_HOST = 'auth.smtp.1and1.co.uk'
+EMAIL_HOST_USER = 'studeals@sowia.me'
 EMAIL_HOST_PASSWORD = 'StudealsWAD2App'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'Studeals No-reply <no-reply@studeals.sowia.me>'
