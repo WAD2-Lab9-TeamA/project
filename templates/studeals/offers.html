@@ -16,7 +16,7 @@
 			<tbody>
 				{% for offer in offers %}
 					<tr>
-					<td>{{offer.title}}</td>
+					<td><a href={% url 'show_offer' offer.slug %}>{{offer.title}}</a></td>
 					<td>{{offer.price}}</td>
 					<td>{{offer.expiration_date}}</td>
 					</tr>
