@@ -41,13 +41,13 @@
 	</form>
 	<small><i>
 		Aggregate rating of <span id="rating">{{ offer.rating }}</span>/5 based on {{ total_votes }} votes.
-		<b><span id="rating-message">
+		{% if user.is_authenticated %}<b><span id="rating-message">
 			{% if user_rating %}
 			You voted this offer with {{ user_rating }}/5. Choose a star to change your vote.
 			{% else %}
 			Choose a star to rate!
 			{% endif %}
-		</span></b>
+		</span></b>{% endif %}
 	</i></small>
 	<hr>
 	<a class="list-group-item list-group-item-action rounded mb-3" href="{% url 'show_category' category.slug %}">
