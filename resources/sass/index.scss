@@ -32,6 +32,15 @@ body {
   }
 }
 
+.container {
+  @include media-breakpoint-only(sm) {
+    max-width: 90%;
+  }
+  @include media-breakpoint-only(md) {
+    max-width: 90%;
+  }
+}
+
 img {
   image-orientation: from-image;
 }

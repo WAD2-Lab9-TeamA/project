@@ -10,7 +10,7 @@
   
     <div class="dropdown-menu" aria-labelledby="orderable">
       {% for id, text in orderable.items %}
-      <a href="{{ request.path }}{% query_string orderby=id %}" class="dropdown-item">{{ text }}</a>
+      <a href="{{ request.path }}{% query_string sort=id page='' %}" class="dropdown-item">{{ text }}</a>
       {% endfor %}
     </div>
 </div>

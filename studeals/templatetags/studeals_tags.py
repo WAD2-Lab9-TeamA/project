@@ -38,8 +38,8 @@ def query_string(context, reset=False, **params):
     """
     Tag to build query strings, use argument reset to make a fresh query string
     """
-    if 'query' in context and not reset:
-        query = context['query'].copy()
+    if 'query_string' in context and not reset:
+        query = context['query_string'].copy()
     else:
         query = {}
 

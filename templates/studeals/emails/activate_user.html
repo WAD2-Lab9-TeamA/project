@@ -2,16 +2,16 @@
 
 {% block main %}
 {% autoescape off %}
-<div class="container">
+<main>
   <h2>Hey there!</h2>
   <p>Thank you <b>{{ user.username }}</b>, for joining the community of Studeals! You still need to activate your account to complete your registration.</p>
   <p>Click the button below to activate your account now</p>
   <div class="text-center">
-    <a type="button" class="btn btn-lg btn-primary" href="{{ activation_url }}">Activate account!</a>
+    <a class="btn" href="{{ activation_url }}">Activate account!</a>
   </div>
   <p>Regards,<br>Studeals</p>
   <p></p>
   <p class="text-muted"><small>If you are unable to click the button, copy and paste in the address bar of your browser the following URL: {{ activation_url }}</small></p>
-</div>
+</main>
 {% endautoescape %}
 {% endblock %}

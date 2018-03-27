@@ -137,7 +137,7 @@ class OfferForm(forms.ModelForm):
     """
     Form to insert an offer
     """
-    category = forms.CharField(widget=forms.Select(choices=Category.objects.all().values_list('id','name')), initial="----")
+    category = forms.ModelChoiceField(queryset=Category.objects.all().values_list('id','name'), initial="----")
     title = forms.CharField(max_length=20)
     slug=forms.CharField( required=False, initial="")
     price = forms.CharField(max_length=10)

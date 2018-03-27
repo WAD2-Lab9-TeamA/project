@@ -145,9 +145,9 @@ LOGIN_URL = '/login/'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'auth.smtp.1and1.co.uk'
 EMAIL_HOST_USER = 'studeals@sowia.me'
-EMAIL_HOST_PASSWORD = 'StudealsWAD2App'
+EMAIL_HOST_PASSWORD = 'StudealsAppWAD2'
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'Studeals No-reply <no-reply@studeals.sowia.me>'
+DEFAULT_FROM_EMAIL = 'Studeals No-reply <studeals@sowia.me>'
 
 # reCAPTCHA Invisible settings
 RECAPTCHA_PUBLIC_KEY = '6LdHY00UAAAAACiHAhliUVgqIorh0elu6Kdtii_I'

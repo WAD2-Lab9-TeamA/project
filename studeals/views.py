@@ -145,8 +145,8 @@ def offers(request):
 		'lowest-rating': 'rating'
 	}
 
-	if 'orderby' in request.GET and request.GET['orderby'] in orderable:
-		orderby = orderable_models[request.GET['orderby']]
+	if 'sort' in request.GET and request.GET['sort'] in orderable:
+		orderby = orderable_models[request.GET['sort']]
 	else:
 		orderby = list(orderable_models.values())[0]
 	
@@ -171,7 +171,7 @@ def register(request):
 		form = forms.UserForm(data=request.POST)
 
 		if form.is_valid():
-			user = form.save()
+			user = form.save(commit=False)
 
 			user.set_password(user.password)
 			user.is_active = False
@@ -197,10 +197,12 @@ def activate_user(request, uidb64, token):
 		user = None
 
 	if user is not None:
+		print(user, uid, token)
 		if tokens.activation.check_token(user, token):
 			user.is_active = True
 			user.save()
 			messages.success(request, 'Your account has been activated successfully! You can login now!')
+			return HttpResponseRedirect(reverse('login'))
 		elif not user.is_active and user.last_login is None:
 			activate.send_email(request, user)
 			messages.warning(request, 'The activation link used has expired. A new one has been sent to your email address.')
@@ -215,7 +217,7 @@ def request_password_reset(request):
 		if form.is_valid():
 			try:
 				user = User.objects.get(email=form.cleaned_data['email'])
-				send_password_reset_email(user)
+				send_password_reset_email(request, user)
 				messages.success(request, 'We have just sent you an email containing a password reset link! Check your inbox!')
 				return HttpResponseRedirect(reverse('login'))
 			except User.DoesNotExist:
