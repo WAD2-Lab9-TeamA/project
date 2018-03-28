@@ -152,3 +152,21 @@ DEFAULT_FROM_EMAIL = 'Studeals No-reply <studeals@sowia.me>'
 # reCAPTCHA Invisible settings
 RECAPTCHA_PUBLIC_KEY = '6LdHY00UAAAAACiHAhliUVgqIorh0elu6Kdtii_I'
 RECAPTCHA_SECRET_KEY = '6LdHY00UAAAAAN9I7a5xSmSpiIDyQAU4wtOOZe6y'
+
+# Google Maps API keys
+GMAPS_SERVERSIDE_API_KEY = 'AIzaSyAE8tjHW51QnF-nvuBQggMOsq_GFDMATH4'
+GMAPS_CLIENTSIDE_API_KEY = 'AIzaSyAE8tjHW51QnF-nvuBQggMOsq_GFDMATH4'
+
+# Assign
+from django.db.backends.signals import connection_created
+from django.dispatch import receiver
+import math
+
+@receiver(connection_created)
+def extend_sqlite(connection=None, **kwargs):
+    """ Extend SQLite functionalities for radius calculation """
+    if connection.vendor == 'sqlite':
+        connection.connection.create_function("acos", 1, math.acos)
+        connection.connection.create_function("cos", 1, math.cos)
+        connection.connection.create_function("sin", 1, math.sin)
+        connection.connection.create_function("radians", 1, math.radians)

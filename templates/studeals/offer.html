@@ -50,6 +50,8 @@
 		</span></b>{% endif %}
 	</i></small>
 	<hr>
+	{% generate_map %}
+	<hr>
 	<a class="list-group-item list-group-item-action rounded mb-3" href="{% url 'show_category' category.slug %}">
 	{% category_picture %} <span class="bigger-text ml-3">{{ category.name }}</span></a>
 </div>

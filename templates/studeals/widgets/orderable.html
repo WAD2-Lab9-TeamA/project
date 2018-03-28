@@ -1,8 +1,8 @@
 {% load studeals_tags %}
-<div class="dropdown show">
-    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="orderable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      {% if 'orderby' in query_string and query_string.orderby in orderable %}
-      {{ orderable|get:query_string.orderby }}
+<span class="dropdown show">
+    <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="orderable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {% if 'sort' in query_string and query_string.sort in orderable %}
+      {{ orderable|get:query_string.sort }}
       {% else %}
       {{ orderable|firstentry }}
       {% endif %}
@@ -13,4 +13,4 @@
       <a href="{{ request.path }}{% query_string sort=id page='' %}" class="dropdown-item">{{ text }}</a>
       {% endfor %}
     </div>
-</div>
+  </span>

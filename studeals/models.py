@@ -11,7 +11,20 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        slug = slugify(self.name)
+        slug_exists = True
+        counter = 2
+        self.slug = slug
+        while slug_exists:
+            try:
+                cat = Category.objects.get(slug=self.slug)
+                if cat == self:
+                    slug_exists = False
+                    break
+                self.slug = slug + '-' + str(counter)
+                counter += 1
+            except Category.DoesNotExist:
+                slug_exists = False
         super(Category, self).save(*args, **kwargs)
 
     class Meta:
@@ -42,6 +55,8 @@ class Offer(models.Model):
     title = models.CharField(max_length=20)
     price = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
+    place_latitude = models.DecimalField(max_digits=10, decimal_places=8, default=0)
+    place_longitude = models.DecimalField(max_digits=11, decimal_places=8, default=0)
     place_address = models.CharField(max_length=200)
     place_name = models.CharField(max_length=30)
     picture = models.ImageField(upload_to='offers', blank=True)
@@ -52,7 +67,21 @@ class Offer(models.Model):
     date_added = models.DateTimeField(default=datetime.now)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        """ Saving model with slug field """
+        slug = slugify(self.title)
+        slug_exists = True
+        counter = 2
+        self.slug = slug
+        while slug_exists:
+            try:
+                offer = Offer.objects.get(slug=self.slug)
+                if offer == self:
+                    slug_exists = False
+                    break
+                self.slug = slug + '-' + str(counter)
+                counter += 1
+            except Offer.DoesNotExist:
+                slug_exists = False
         super(Offer, self).save(*args, **kwargs)
 
     def __str__(self):

@@ -1,6 +1,7 @@
-{% extends 'studeals/layouts/split.html' %}
+{% extends 'studeals/layouts/base.html' %}
 {% load studeals_tags %}
-{% block content %}
+{% block main %}
+<div class="container">
 	<h2 class="mb-4">Categories</h2>
 	{% if categories %}
 	<div class="list-group-flush">
@@ -13,8 +14,5 @@
 	{% else %}
 		<p class="text-muted">There are currently no categories!</p>
 	{% endif %}
-{% endblock %}
-
-
-{% block sidebar %}
+</div>
 {% endblock %}

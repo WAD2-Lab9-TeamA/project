@@ -1,24 +1,28 @@
 {% extends 'studeals/layouts/split.html' %}
 
+{% block scripts %}<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ gmaps_key }}&callback=initGmaps&libraries=places"></script>{% endblock %}
+
 {% block main %}
 <div class="welcome jumbotron jumbotron-fluid">
 	<div class="container">
 		<div class="message">Start here! Find deals near you:</div>
-		<fieldset class="form-group">
-			<div class="input-group">
-				<div class="input-group-prepend geolocation">
-					<button title="Current location" class="btn btn-light get-position" data-target="#search" type="button">
-						<i class="fas fa-fw fa-location-arrow"></i><span class="d-none d-md-inline"> My location</span>
-					</button>
+		<form action="/offers">
+			<fieldset class="form-group">
+				<div class="input-group">
+					<div class="input-group-prepend geolocation">
+						<button title="Current location" class="btn btn-light get-position" type="button">
+							<i class="fas fa-fw fa-location-arrow"></i><span class="d-none d-md-inline"> My location</span>
+						</button>
+					</div>
+					<input class="form-control gmaps-autocomplete" type="text" placeholder="Postcode, address, town..." name="address">
+					<div class="input-group-append">
+						<button type="submit" title="Search now!" class="btn btn-light">
+							<i class="fa fa-fw fa-search"></i>
+						</button>
+					</div>
 				</div>
-				<input class="form-control" type="text" placeholder="Postcode, address, town..." name="location">
-				<div class="input-group-append">
-					<button type="submit" title="Search now!" class="btn btn-light">
-						<i class="fa fa-fw fa-search"></i>
-					</button>
-				</div>
-			</div>
-		</fieldset>
+			</fieldset>
+		</form>
 	</div>
 </div>
 {{ block.super }}
@@ -28,13 +32,6 @@
 <h2 class="mb-4">Last offers</h2>
 {% if offers %}
 <table class="table">
-	<thead>
-		<tr>
-			<th scope="col">Title</th>
-			<th scope="col">Promo</th>
-			<th scope="col">Expires on</th>
-		</tr>
-	</thead>
 	<tbody>
 		{% for offer in offers %}
 			<tr>
@@ -52,6 +49,4 @@
 
 {% block sidebar %}
 {% include "studeals/widgets/user.html" %}
-<hr>
-{% include "studeals/widgets/last_categories.html" %}
 {% endblock %}

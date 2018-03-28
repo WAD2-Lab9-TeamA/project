@@ -1,31 +1,47 @@
 {% extends 'studeals/layouts/split.html' %}
+{% load studeals_tags %}
 
 {% block title %}Offers{% endblock %}
 
 {% block content %}
 	<h2 class="mb-4">Offers</h2>
-		{% if offers %}
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Title</th>
-					<th scope="col">Promo</th>
-					<th scope="col">Expires on</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for offer in offers %}
-					<tr>
-					<td><a href={% url 'show_offer' offer.slug %}>{{offer.title}}</a></td>
-					<td>{{offer.price}}</td>
-					<td>{{offer.expiration_date}}</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+		{% if position %}<div class="mb-3">Displaying results within <span class="dropdown show">
+				<a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="orderable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  {{ radius }} miles
+				</a>
+			  
+				<div class="dropdown-menu" aria-labelledby="orderable">
+				  {% for value in radius_values %}
+				  <a href="{{ request.path }}{% query_string radius=value sort='' page='' %}" class="dropdown-item">{{ value }} miles</a>
+				  {% endfor %}
+				</div>
+			</span> from <b>{{ position.results.0.formatted_address }}</b>.</div> {% endif %}
+		{% if offers_length %}
+		<div class="mb-3">Showing {{ offers_length }} results. Order by: {% include 'studeals/widgets/orderable.html' %}</div>
+		<div class="list-group list-group-flush">
+			{% for offer in offers %}
+				<div class="list-group-item">
+				{% if position %}<div class="row align-items-center">
+					<div class="col-2 col-sm-1 h4 d-flex justify-content-center">
+						<span class="border rounded-circle py-2 px-3">{{ forloop.counter }}</span>
+					</div>
+					<div class="col-10 col-sm-11">
+				{% endif %}
+				<h5><a href={% url 'show_offer' offer.slug %}>{{offer.title}}</a></h5>
+				<b>Place:</b> {{offer.place_name}}<br>
+				<b>Promotion:</b> {{offer.price}}<br>
+				<b>Expires on:</b> {{offer.expiration_date}}</td>
+				{% if position %}</div></div>{% endif %}
+				</div>
+			{% endfor %}
+		</div>
 		
 		{% else %}
+			{% if position %}
+			<p class="text-muted">There are currently no offers within the searched area!</p>
+			{% else %}
 			<p class="text-muted">There are currently no offers!</p>
+			{% endif %}
 		{% endif %}
 {% endblock %}
 
@@ -34,6 +50,8 @@
 {% if user.is_authenticated %}
 <a class="btn btn-primary my-3" href={% url "add_offer" %}>Add Offer</a>
 {% endif %}
-<h4 class="my-3">Order by</h3>
-{% include 'studeals/widgets/orderable.html' %}
+{% if position %}
+<div class="text-center">
+{% generate_map %}</div>
+{% endif %}
 {% endblock %}

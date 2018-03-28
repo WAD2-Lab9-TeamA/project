@@ -50,6 +50,16 @@ $(() => {
     $(".geolocation").remove();
   }
 
+  $(".geolocation").click(() => {
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        window.location.href = '/offers?lat=' + encodeURI(pos.coords.latitude)
+          + '&lon=' + encodeURI(pos.coords.longitude)
+          + '&accuracy=' + encodeURI(pos.coords.accuracy);
+      });
+    }
+  });
+
   // Mobile side nav toggle
   $("#offpage-nav-toggle").click(() => {
     $("body").addClass("offpage-nav-visible");
@@ -207,6 +217,13 @@ $(() => {
     });
   })
 });
+
+window.initGmaps = () => {
+  var inputs = document.getElementsByClassName('gmaps-autocomplete');
+  [].forEach.call(inputs, (input) => {
+    let autocomplete = new google.maps.places.Autocomplete(input);
+  });
+};
 
 $(window).on('load', (e) => {
   setTimeout(() => $("body").removeClass("loading"), 200);
