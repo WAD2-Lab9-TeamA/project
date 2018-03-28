@@ -110,6 +110,7 @@ def add_offer(request):
         form = forms.OfferForm(request.POST)
         if form.is_valid():
             offer=form.save(commit=False)
+            offer.category = Category.objects.get(pk=request.POST.get('category'))
             offer.user = request.user
             pos = geocode(offer.place_address)
             if pos['status'] == "OK":
