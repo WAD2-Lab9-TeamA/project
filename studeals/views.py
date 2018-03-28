@@ -103,6 +103,7 @@ def rate_offer(request, offer_title_slug):
 
     return HttpResponseBadRequest()
 
+@login_required
 def add_offer(request):
     form = forms.OfferForm()
     if request.method=='POST':
