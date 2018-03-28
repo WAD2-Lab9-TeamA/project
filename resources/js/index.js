@@ -201,7 +201,7 @@ $(() => {
       $('.selector', eltParent).remove()
 
       $.ajax({
-        url: window.location.pathname + 'rate/',
+        url: window.location.pathname + '/rate/',
         method: 'POST',
         data: new FormData($('#rate')[0]),
         processData: false,
