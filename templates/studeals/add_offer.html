@@ -1,17 +1,15 @@
-{% extends 'studeals/layouts/split.html' %}
+{% extends 'studeals/layouts/base.html' %}
 
-{% block title %}Offers{% endblock %}
+{% block title %}Add offer{% endblock %}
 
-{% block content %}
+{% block main %}
+<div class="container">
 	<h2 class="mb-4">Add Offer</h2>
 	<form id="offer form" method="post" action="{% url 'add_offer' %}">
 		{% csrf_token %}
 		{% include 'studeals/widgets/form.html' %}
 		<button type="submit" class="btn btn-primary">Add offer</button>
 	</form>
-			
+</div>
 {% endblock %}
 
-
-{% block sidebar %}
-{% endblock %}

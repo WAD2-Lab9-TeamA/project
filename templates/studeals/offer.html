@@ -17,7 +17,7 @@
 {% block content %}
 	<h2 class="mb-4">Offer</h2>
 	<h3>{{ offer.title }}</h3>
-	<h5><i class="fas fa-fw fa-gift"></i> Promotion: <small>{{ offer.price }}</small></h5>
+	<h5><i class="fas fa-fw fa-gift"></i> Promotion: <small>{{ offer.promotion }}</small></h5>
 	<h5><i class="fas fa-fw fa-map-pin"></i> Where? <small><b>{{ offer.place_name }}</b> &bullet; {{ offer.place_address }}</small></h5>
 	<h5><i class="fas fa-fw fa-calendar-times"></i> Expires on: <small><b>{{ offer.expiration_date }}</b></small></h5>
 	{% if offer.user %}<h5><i class="fas fa-fw fa-user-plus"></i> Added by: <small>{{ offer.user }}</small></h5>{% endif %}

@@ -137,19 +137,18 @@ class OfferForm(forms.ModelForm):
     """
     Form to insert an offer
     """
-    category = forms.ModelChoiceField(queryset=Category.objects.all().values_list('id','name'), initial="----")
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), initial="----")
     title = forms.CharField(max_length=20)
-    slug=forms.CharField( required=False, initial="")
-    price = forms.CharField(max_length=10)
+    promotion = forms.CharField(max_length=10)
     description = forms.CharField(max_length=200)
     place_address = forms.CharField(max_length=200)
     place_name = forms.CharField(max_length=50)
-    picture = forms.ImageField(required=False)
-    expiration_date = forms.CharField(max_length=20)
+    expiration_date = forms.DateField(widget=forms.DateInput())
 
     class Meta:
         model = Offer
         exclude = ('category',)
+        fields = ('title', 'promotion', 'description', 'place_name', 'place_address', 'expiration_date')
 
 class ContactUsForm(forms.Form):
     """

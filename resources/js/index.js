@@ -223,6 +223,9 @@ window.initGmaps = () => {
   [].forEach.call(inputs, (input) => {
     let autocomplete = new google.maps.places.Autocomplete(input);
   });
+  var input = document.getElementById('id_place_address');
+  if(input)
+    new google.maps.places.Autocomplete(input);
 };
 
 $(window).on('load', (e) => {
