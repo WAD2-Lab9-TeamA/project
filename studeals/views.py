@@ -109,10 +109,14 @@ def add_offer(request):
     if request.method=='POST':
         form = forms.OfferForm(request.POST)
         if form.is_valid():
-                offer=form.save(commit=False)
-                offer.date_added=datetime.now
-                offer.save()
-                return offers(request)
+            offer=form.save(commit=False)
+            offer.user = request.user
+            pos = geocode(offer.place_address)
+            if pos['status'] == "OK":
+                offer.place_latitude = pos['results'][0]['geometry']['location']['lat']
+                offer.place_longitude = pos['results'][0]['geometry']['location']['lng']
+            offer.save()
+            return offers(request)
         else:
             print(form.errors)
     else:
