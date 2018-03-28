@@ -106,9 +106,9 @@ def populate():
 		for p in Offer.objects.filter(category=c):
 			print("-{0} - {1}".format(str(c), str(p)))
 				
-def add_offer(cat, title, price, description, place_address, place_name, expiration_date,place_latitude=0,place_longitude=0):
+def add_offer(cat, title, promotion, description, place_address, place_name, expiration_date,place_latitude=0,place_longitude=0):
 	p=Offer.objects.get_or_create(category=cat, title=title, expiration_date=expiration_date)[0]
-	p.price=price
+	p.promotion=promotion
 	p.description=description
 	p.place_address=place_address
 	p.place_name=place_name
